@@ -1,0 +1,16 @@
+.git
+.vs
+.idea
+.vscode
+secrets
+artifacts
+node_modules
+**/bin
+**/obj
+**/TestResults
+**/logs
+**/__pycache__
+.env
+.env.*
+*.log
+docs/screenshots

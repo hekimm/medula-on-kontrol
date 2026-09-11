@@ -1,0 +1,62 @@
+@model RedAnalizi
+@{
+    ViewData["Title"] = "Red geri beslemesi";
+    var canClassify = (await Authorization.AuthorizeAsync(User, Yetkiler.Approve)).Succeeded;
+}
+<div class="page-heading"><div><h1>Red geri beslemesi</h1><p>Gönderim sonuçları, red kayıtları ve kural isabet oranları.</p></div><form method="get" class="inline-form"><label class="visually-hidden" for="donem">Dönem</label><input class="form-control period-input" type="number" id="donem" name="donem" value="@ViewBag.Donem"/><button class="btn btn-light">Listele</button></form></div><section class="surface"><div class="section-heading"><div><h2>Kural isabet analizi</h2><p>Yalnızca sonucu bilinen gönderimlerin gönderim öncesi kontrolü kullanılır.</p></div></div><div class="table-responsive"><table class="table table-bordered table-striped table-hover data-table"><thead><tr><th>Kural</th><th>Doğru pozitif</th><th>Yanlış pozitif</th><th>Yanlış negatif</th><th>İsabet (precision)</th><th>Yakalama (recall)</th><th>F1</th></tr></thead><tbody>@foreach(var metric in Model.Metrics){<tr><td><strong>@metric.KuralKodu</strong></td><td>@metric.TruePositiveCount</td><td>@metric.FalsePositiveCount</td><td>@metric.FalseNegativeCount</td><td>@(metric.Precision?.ToString("P1")??"—")</td><td>@(metric.Recall?.ToString("P1")??"—")</td><td>@(metric.F1?.ToString("N3")??"—")</td></tr>}@if(Model.Metrics.Count==0){<tr><td colspan="7" class="empty-state">Metrik hesaplamak için sonuçlanmış gönderim ve sınıflandırılmış red verisi gerekiyor.</td></tr>}</tbody></table></div></section><div class="dashboard-grid mt-4"><section class="surface padded"><h2>Yakalanamayan red desenleri</h2><p>Uzman incelemesi için kural önerisi adaylarıdır; otomatik mevzuat kuralı oluşturulmaz.</p>@foreach(var suggestion in Model.Suggestions){<div class="suggestion"><strong>@suggestion.Name</strong><span>@suggestion.Adet kayıt · @suggestion.Tutar.ToString("C2")</span></div>}@if(Model.Suggestions.Count==0){<p class="muted">Bu dönemde raporlanacak desen yok.</p>}</section>@if((await Authorization.AuthorizeAsync(User,Yetkiler.Approve)).Succeeded){<section class="surface padded"><h2>Red kaydı ekle</h2><form asp-action="Create" method="post" class="edit-grid"><label>Fatura ID<input class="form-control" type="number" name="FaturaId" required/></label><label>Kalem ID (isteğe bağlı)<input class="form-control" type="number" name="KalemId"/></label><label>SGK red kodu (temsili)<input class="form-control" name="SgkRedKodu" required maxlength="60"/></label><label>Red tutarı<input class="form-control" type="number" step="0.01" min="0.01" name="Tutar" required/></label><label>Red tarihi<input class="form-control" type="datetime-local" step="1" name="KayitTarihi" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" required/></label><label>Uzmanın sınıflandırdığı kural kodu<input class="form-control" name="KuralKodu" placeholder="Örn. BLG-001"/></label><label class="wide">Red açıklaması<textarea class="form-control" name="Description" required minlength="10" maxlength="1000"></textarea></label><button class="btn btn-primary">Red kaydını ekle</button></form></section>}</div><section class="surface mt-4">
+    <div class="section-heading"><h2>Gerçekleşen red kayıtları</h2></div>
+    <div class="table-responsive" tabindex="0" role="region" aria-label="Red kayıtları">
+        <table class="table table-bordered table-striped table-hover data-table">
+            <thead><tr><th>Fatura</th><th>Red kodu</th><th>Açıklama</th><th>Tutar</th><th>Tarih</th><th>Kural ve sınıflandırma</th></tr></thead>
+            <tbody>
+            @foreach (var red in Model.Redler)
+            {
+                <tr data-red-id="@red.Id">
+                    <td><a asp-controller="Fatura" asp-action="Details" asp-route-id="@red.FaturaId">@red.FaturaId</a></td>
+                    <td>@red.SgkRedKodu</td>
+                    <td>@red.RedAciklama</td>
+                    <td>@red.RedTutar.ToString("C2")</td>
+                    <td>@red.RedTarihi.TurkiyeSaatineCevir().ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <span>@(red.EslesenKuralKodu ?? "Sınıflandırılmadı")</span>
+                        @if (canClassify)
+                        {
+                            <details>
+                                <summary>Sınıflandırmayı düzenle</summary>
+                                <form asp-action="Classify" method="post" class="edit-grid mt-3">
+                                    <input type="hidden" name="RedId" value="@red.Id" />
+                                    <input type="hidden" name="FaturaId" value="@red.FaturaId" />
+                                    <input type="hidden" name="donem" value="@ViewBag.Donem" />
+                                    <input type="hidden" name="ExpectedKuralKodu" value="@red.EslesenKuralKodu" />
+                                    <input type="hidden" name="ExpectedKalemId" value="@red.FaturaKalemiId" />
+                                    <div>
+                                        <label for="red-kural-@red.Id">Kural kodu</label>
+                                        <select id="red-kural-@red.Id" name="KuralKodu" class="form-select" required>
+                                            <option value="">Kural seçin</option>
+                                            @foreach (var metrik in Model.Metrics)
+                                            {
+                                                <option value="@metrik.KuralKodu" selected="@(metrik.KuralKodu == red.EslesenKuralKodu)">@metrik.KuralKodu</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <label>Kalem ID (fatura geneli için boş bırakın)
+                                        <input name="KalemId" type="number" min="1" class="form-control" value="@red.FaturaKalemiId" />
+                                    </label>
+                                    <label class="wide">Sınıflandırma gerekçesi
+                                        <textarea name="Gerekce" class="form-control" required minlength="10" maxlength="700"></textarea>
+                                    </label>
+                                    <button class="btn btn-primary">Sınıflandırmayı kaydet</button>
+                                </form>
+                            </details>
+                        }
+                    </td>
+                </tr>
+            }
+            @if (Model.Redler.Count == 0)
+            {
+                <tr><td colspan="6" class="empty-state">Bu dönemde red kaydı bulunmuyor.</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

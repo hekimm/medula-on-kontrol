@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D4B74F69-5579-45C3-938B-2511D12F3B6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.Domain", "src\MedulaOnKontrol.Domain\MedulaOnKontrol.Domain.csproj", "{2FC6C9AA-B79C-4927-BC4C-1675A0151C87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.Application", "src\MedulaOnKontrol.Application\MedulaOnKontrol.Application.csproj", "{061836D2-3D28-46F3-A9DB-BC02D180DA11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.Infrastructure", "src\MedulaOnKontrol.Infrastructure\MedulaOnKontrol.Infrastructure.csproj", "{A392CE09-75DE-41C1-9C00-905DD7416A7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.Web", "src\MedulaOnKontrol.Web\MedulaOnKontrol.Web.csproj", "{DFF0A2D1-1166-49CA-8387-DB8DB76D5AA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AB56D355-A30F-4A2C-94A3-0EB84ADD4CEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.UnitTests", "tests\MedulaOnKontrol.UnitTests\MedulaOnKontrol.UnitTests.csproj", "{CD4FFFED-BE3A-4359-AEEF-E6E0D6FAB798}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.IntegrationTests", "tests\MedulaOnKontrol.IntegrationTests\MedulaOnKontrol.IntegrationTests.csproj", "{3445A7B5-20FB-4930-A6FE-ED5840AA491C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{53BB56C9-D56E-480B-AD32-C44B90591E26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.Benchmark", "tools\MedulaOnKontrol.Benchmark\MedulaOnKontrol.Benchmark.csproj", "{9FB3EAB4-44B5-41B8-A6ED-9C3F3151DE7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedulaOnKontrol.NamingChecks", "tools\MedulaOnKontrol.NamingChecks\MedulaOnKontrol.NamingChecks.csproj", "{EF18C59D-0566-4AAE-8087-92B4CC088FA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FC6C9AA-B79C-4927-BC4C-1675A0151C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC6C9AA-B79C-4927-BC4C-1675A0151C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC6C9AA-B79C-4927-BC4C-1675A0151C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC6C9AA-B79C-4927-BC4C-1675A0151C87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{061836D2-3D28-46F3-A9DB-BC02D180DA11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{061836D2-3D28-46F3-A9DB-BC02D180DA11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{061836D2-3D28-46F3-A9DB-BC02D180DA11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{061836D2-3D28-46F3-A9DB-BC02D180DA11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A392CE09-75DE-41C1-9C00-905DD7416A7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A392CE09-75DE-41C1-9C00-905DD7416A7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A392CE09-75DE-41C1-9C00-905DD7416A7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A392CE09-75DE-41C1-9C00-905DD7416A7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFF0A2D1-1166-49CA-8387-DB8DB76D5AA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFF0A2D1-1166-49CA-8387-DB8DB76D5AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFF0A2D1-1166-49CA-8387-DB8DB76D5AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFF0A2D1-1166-49CA-8387-DB8DB76D5AA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD4FFFED-BE3A-4359-AEEF-E6E0D6FAB798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD4FFFED-BE3A-4359-AEEF-E6E0D6FAB798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD4FFFED-BE3A-4359-AEEF-E6E0D6FAB798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD4FFFED-BE3A-4359-AEEF-E6E0D6FAB798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3445A7B5-20FB-4930-A6FE-ED5840AA491C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3445A7B5-20FB-4930-A6FE-ED5840AA491C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3445A7B5-20FB-4930-A6FE-ED5840AA491C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3445A7B5-20FB-4930-A6FE-ED5840AA491C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB3EAB4-44B5-41B8-A6ED-9C3F3151DE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB3EAB4-44B5-41B8-A6ED-9C3F3151DE7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB3EAB4-44B5-41B8-A6ED-9C3F3151DE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB3EAB4-44B5-41B8-A6ED-9C3F3151DE7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF18C59D-0566-4AAE-8087-92B4CC088FA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF18C59D-0566-4AAE-8087-92B4CC088FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF18C59D-0566-4AAE-8087-92B4CC088FA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF18C59D-0566-4AAE-8087-92B4CC088FA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2FC6C9AA-B79C-4927-BC4C-1675A0151C87} = {D4B74F69-5579-45C3-938B-2511D12F3B6D}
+		{061836D2-3D28-46F3-A9DB-BC02D180DA11} = {D4B74F69-5579-45C3-938B-2511D12F3B6D}
+		{A392CE09-75DE-41C1-9C00-905DD7416A7A} = {D4B74F69-5579-45C3-938B-2511D12F3B6D}
+		{DFF0A2D1-1166-49CA-8387-DB8DB76D5AA7} = {D4B74F69-5579-45C3-938B-2511D12F3B6D}
+		{CD4FFFED-BE3A-4359-AEEF-E6E0D6FAB798} = {AB56D355-A30F-4A2C-94A3-0EB84ADD4CEB}
+		{3445A7B5-20FB-4930-A6FE-ED5840AA491C} = {AB56D355-A30F-4A2C-94A3-0EB84ADD4CEB}
+		{9FB3EAB4-44B5-41B8-A6ED-9C3F3151DE7F} = {53BB56C9-D56E-480B-AD32-C44B90591E26}
+		{EF18C59D-0566-4AAE-8087-92B4CC088FA7} = {53BB56C9-D56E-480B-AD32-C44B90591E26}
+	EndGlobalSection
+EndGlobal

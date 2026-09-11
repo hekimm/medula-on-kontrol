@@ -1,0 +1,15 @@
+@{ ViewData["Title"] = "Kullanıcı girişi"; }
+<section class="login-panel card">
+    <div class="card-header"><h1>Kullanıcı girişi</h1></div>
+    <div class="card-body login-form">
+        <p>Kullanıcı adınızı ve parolanızı giriniz.</p>
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+            <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+            <div class="mb-3"><label for="username">Kullanıcı adı</label><input class="form-control" id="username" name="username" required maxlength="100" autocomplete="username" /></div>
+            <div class="mb-3"><label for="password">Parola</label><input class="form-control" type="password" id="password" name="password" required maxlength="128" autocomplete="current-password" /></div>
+            <div class="login-actions"><button class="btn btn-primary" type="submit">Oturum aç</button></div>
+        </form>
+    </div>
+    <div class="card-footer login-notice"><strong>Test ortamı</strong><br />Yalnızca sentetik veri kullanılır. Görüntüleme ve değişiklik işlemleri denetim izine kaydedilir.</div>
+</section>

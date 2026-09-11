@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk"><ItemGroup><ProjectReference Include="../MedulaOnKontrol.Domain/MedulaOnKontrol.Domain.csproj"/><PackageReference Include="FluentValidation" Version="11.11.0"/><PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2"/></ItemGroup></Project>

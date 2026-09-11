@@ -1,0 +1,45 @@
+@model IReadOnlyList<KuralKalibrasyon>
+@{ ViewData["Title"] = "Kural kalibrasyonu"; }
+<div class="page-heading">
+    <div><h1>Kural kalibrasyonu</h1><p>Yetkili olduğunuz kliniklerin sonuçlanmış gönderimlerinden ağırlık önerileri.</p></div>
+    <a class="btn btn-light" asp-action="Index">Kural kataloğuna dön</a>
+</div>
+<form method="get" class="inline-form mb-4">
+    <label for="donem">Gözlem dönemi</label>
+    <input id="donem" name="donem" type="number" class="form-control period-input" value="@ViewBag.Donem" min="202001" max="210012" required />
+    <button class="btn btn-primary">Analizi güncelle</button>
+</form>
+<div class="alert alert-info">Öneriler en az 10 gözlemden hesaplanır. Ağırlık değişikliği gerekçenizle yeni sürüm oluşturur ve ileri bir dönemde yürürlüğe girer. Kuralın engelleyici niteliği korunur.</div>
+<section class="surface table-responsive">
+    <table class="table table-bordered table-striped data-table">
+        <caption class="px-3">İsabet ve yakalama oranları; sıfır payda — olarak gösterilir. Öneri formülü: ağırlık × (0,5 + (2TP + 2) / (2TP + FP + FN + 4)), 1–100 aralığında.</caption>
+        <thead><tr><th scope="col">Kural</th><th scope="col">TP / FP / FN</th><th scope="col">İsabet</th><th scope="col">Yakalama</th><th scope="col">F1</th><th scope="col">Ağırlık → Öneri</th><th scope="col">Yeni sürüm</th></tr></thead>
+        <tbody>
+        @foreach (var satir in Model)
+        {
+            <tr>
+                <th scope="row"><a asp-action="Details" asp-route-id="@satir.Kural.KuralKodu">@satir.Kural.KuralKodu</a><small class="block">v@(satir.Kural.Version)</small></th>
+                <td>@satir.Metrik.TruePositiveCount / @satir.Metrik.FalsePositiveCount / @satir.Metrik.FalseNegativeCount</td>
+                <td>@(satir.Metrik.Precision?.ToString("P1") ?? "—")</td><td>@(satir.Metrik.Recall?.ToString("P1") ?? "—")</td><td>@(satir.Metrik.F1?.ToString("N3") ?? "—")</td>
+                <td>@satir.Kural.Agirlik → @(satir.OnerilenAgirlik?.ToString() ?? "Yetersiz gözlem")</td>
+                <td>
+                @if (satir.Kural.IsActive && satir.OnerilenAgirlik.HasValue && satir.OnerilenAgirlik != satir.Kural.Agirlik)
+                {
+                    <details><summary>@satir.Kural.KuralKodu önerisini uygula</summary>
+                        <form asp-action="Calibrate" method="post">
+                            <input type="hidden" name="Donem" value="@ViewBag.Donem" />
+                            <input type="hidden" name="KuralKodu" value="@satir.Kural.KuralKodu" />
+                            <input type="hidden" name="ExpectedVersion" value="@satir.Kural.Version" />
+                            <label>Yürürlük başlangıcı<input class="form-control" type="date" name="YururlukBaslangic" value="@DateTime.UtcNow.AddMonths(1).ToString("yyyy-MM-01")" required /></label>
+                            <label>Değişiklik gerekçesi<textarea class="form-control" name="Gerekce" required minlength="10" maxlength="700"></textarea></label>
+                            <button class="btn btn-primary mt-2">Yeni sürümü kaydet</button>
+                        </form>
+                    </details>
+                }
+                else { <span class="muted">Değişiklik yok</span> }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>

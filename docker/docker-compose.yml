@@ -1,0 +1,65 @@
+name: medula-prebilling
+services:
+  initialize-secrets:
+    image: medula-prebilling:local
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    user: "0:0"
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["dotnet MedulaOnKontrol.Web.dll --init-secrets /run/medula-secrets && chown -R 1654:1654 /run/medula-secrets"]
+    volumes:
+      - secrets:/run/medula-secrets
+    restart: "no"
+  oracle:
+    image: gvenzl/oracle-xe:21.3.0-slim-faststart@sha256:f82bccdf6020d27373fdf0e93046b63eb3f777a0289e329d9839feebaf4555de
+    environment:
+      ORACLE_PASSWORD_FILE: /run/medula-secrets/oracle-password
+      APP_USER: MEDULA
+      APP_USER_PASSWORD_FILE: /run/medula-secrets/app-password
+    depends_on:
+      initialize-secrets:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:${ORACLE_PORT:-11522}:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - secrets:/run/medula-secrets:ro
+      - ./010-runtime-user.sh:/container-entrypoint-initdb.d/010-runtime-user.sh:ro
+    shm_size: 1gb
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: unless-stopped
+  web:
+    image: medula-prebilling:local
+    depends_on:
+      oracle:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Database__DataSource: oracle:1521/XEPDB1
+      Database__UseRuntimeUser: "true"
+      AllowedHosts: "localhost;127.0.0.1"
+    ports:
+      - "127.0.0.1:${MEDULA_PORT:-5187}:8080"
+    volumes:
+      - secrets:/run/medula-secrets
+      - application-logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 90s
+    restart: unless-stopped
+volumes:
+  secrets:
+    name: ${MEDULA_SECRETS_VOLUME:-${COMPOSE_PROJECT_NAME:-medula}-secrets}
+  oracle-data:
+    name: ${MEDULA_ORACLE_VOLUME:-${COMPOSE_PROJECT_NAME:-medula}-oracle-data}
+  application-logs:
+    name: ${MEDULA_LOGS_VOLUME:-${COMPOSE_PROJECT_NAME:-medula}-application-logs}

@@ -1,0 +1,44 @@
+namespace MedulaOnKontrol.Domain.Rules;
+public static class KuralKodlari
+{
+    public const string Prv001 = "PRV-001";
+    public const string Prv002 = "PRV-002";
+    public const string Prv003 = "PRV-003";
+    public const string Prv004 = "PRV-004";
+    public const string Prv005 = "PRV-005";
+    public const string Tani001 = "TANI-001";
+    public const string Tani002 = "TANI-002";
+    public const string Tani003 = "TANI-003";
+    public const string Tani004 = "TANI-004";
+    public const string Tani005 = "TANI-005";
+    public const string Tani006 = "TANI-006";
+    public const string Itu001 = "ITU-001";
+    public const string Itu002 = "ITU-002";
+    public const string Isl001 = "ISL-001";
+    public const string Isl002 = "ISL-002";
+    public const string Isl003 = "ISL-003";
+    public const string Isl004 = "ISL-004";
+    public const string Isl005 = "ISL-005";
+    public const string Isl006 = "ISL-006";
+    public const string Isl007 = "ISL-007";
+    public const string Isl008 = "ISL-008";
+    public const string Isl009 = "ISL-009";
+    public const string Tut001 = "TUT-001";
+    public const string Tut002 = "TUT-002";
+    public const string Tut003 = "TUT-003";
+    public const string Tut004 = "TUT-004";
+    public const string Blg001 = "BLG-001";
+    public const string Blg002 = "BLG-002";
+    public const string Blg003 = "BLG-003";
+    public const string Blg004 = "BLG-004";
+    public const string Blg005 = "BLG-005";
+    public const string Blg006 = "BLG-006";
+    public const string Ilc001 = "ILC-001";
+    public const string Ilc002 = "ILC-002";
+    public const string Ilc003 = "ILC-003";
+    public const string Ilc004 = "ILC-004";
+    public const string Sur001 = "SUR-001";
+    public const string Sur002 = "SUR-002";
+    public const string Sur003 = "SUR-003";
+    public const string Sur004 = "SUR-004";
+}

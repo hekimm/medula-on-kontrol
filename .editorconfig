@@ -1,0 +1,65 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{json,yaml,yml,js,mjs,css}]
+indent_size = 2
+
+[*.ps1]
+charset = utf-8-bom
+end_of_line = crlf
+
+[*.cs]
+csharp_style_namespace_declarations = file_scoped:warning
+dotnet_sort_system_directives_first = true
+dotnet_naming_rule.types_use_pascal_case.symbols = types
+dotnet_naming_rule.types_use_pascal_case.style = pascal_case
+dotnet_naming_rule.types_use_pascal_case.severity = warning
+dotnet_naming_symbols.types.applicable_kinds = class, struct, enum, delegate
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+dotnet_naming_rule.interfaces_have_prefix.symbols = interfaces
+dotnet_naming_rule.interfaces_have_prefix.style = interface_name
+dotnet_naming_rule.interfaces_have_prefix.severity = warning
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+dotnet_naming_style.interface_name.capitalization = pascal_case
+dotnet_naming_style.interface_name.required_prefix = I
+dotnet_naming_rule.constants_use_pascal_case.symbols = constants
+dotnet_naming_rule.constants_use_pascal_case.style = pascal_case
+dotnet_naming_rule.constants_use_pascal_case.severity = warning
+dotnet_naming_symbols.constants.applicable_kinds = field, local
+dotnet_naming_symbols.constants.required_modifiers = const
+dotnet_naming_rule.private_fields_have_prefix.symbols = private_fields
+dotnet_naming_rule.private_fields_have_prefix.style = private_field
+dotnet_naming_rule.private_fields_have_prefix.severity = warning
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.private_field.capitalization = camel_case
+dotnet_naming_style.private_field.required_prefix = _
+dotnet_naming_rule.parameters_use_camel_case.symbols = parameters
+dotnet_naming_rule.parameters_use_camel_case.style = camel_case
+dotnet_naming_rule.parameters_use_camel_case.severity = warning
+dotnet_naming_symbols.parameters.applicable_kinds = parameter
+dotnet_naming_style.camel_case.capitalization = camel_case
+dotnet_naming_rule.members_use_pascal_case.symbols = members
+dotnet_naming_rule.members_use_pascal_case.style = pascal_case
+dotnet_naming_rule.members_use_pascal_case.severity = warning
+dotnet_naming_symbols.members.applicable_kinds = property, method, event
+dotnet_naming_rule.locals_use_camel_case.symbols = locals
+dotnet_naming_rule.locals_use_camel_case.style = camel_case
+dotnet_naming_rule.locals_use_camel_case.severity = warning
+dotnet_naming_symbols.locals.applicable_kinds = local
+dotnet_naming_rule.type_parameters_have_prefix.symbols = type_parameters
+dotnet_naming_rule.type_parameters_have_prefix.style = type_parameter_name
+dotnet_naming_rule.type_parameters_have_prefix.severity = warning
+dotnet_naming_symbols.type_parameters.applicable_kinds = type_parameter
+dotnet_naming_style.type_parameter_name.capitalization = pascal_case
+dotnet_naming_style.type_parameter_name.required_prefix = T
+
+# Record constructor properties and enum members are checked precisely by NamingChecks.
+# No directory-wide naming suppression is permitted.

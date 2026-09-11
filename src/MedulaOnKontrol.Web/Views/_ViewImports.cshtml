@@ -1,0 +1,23 @@
+@using MedulaOnKontrol.Domain
+@using MedulaOnKontrol.Application
+@using MedulaOnKontrol.Web
+@using System.Globalization
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService Authorization
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using MedulaOnKontrol.Domain.Enums
+@using MedulaOnKontrol.Domain.Entities
+@using MedulaOnKontrol.Domain.References
+@using MedulaOnKontrol.Domain.Models
+@using MedulaOnKontrol.Domain.Rules
+@using MedulaOnKontrol.Domain.Security
+@using MedulaOnKontrol.Domain.Extensions
+@using MedulaOnKontrol.Application.Contracts
+@using MedulaOnKontrol.Application.Models
+@using MedulaOnKontrol.Application.Services
+@using MedulaOnKontrol.Application.Rules
+@using MedulaOnKontrol.Application.Validation
+@using MedulaOnKontrol.Application.Configuration
+@using MedulaOnKontrol.Web.Security
+@using MedulaOnKontrol.Web.ModelBinding

@@ -1,0 +1,29 @@
+@model GostergePaneli
+@{ ViewData["Title"] = "Raporlar"; }
+<div class="page-heading">
+    <div><h1>Raporlar</h1><p>Dönem kontrol sonuçları ve ayrıntılı bulgu dökümleri.</p></div>
+</div>
+<form method="get" class="surface filter-grid" aria-label="Rapor dönemi seçimi">
+    <div><label for="donem">Fatura dönemi</label><input class="form-control" type="number" id="donem" name="donem" value="@ViewBag.Donem" required /></div>
+    <button class="btn btn-primary">Listele</button>
+</form>
+<section class="surface">
+    <div class="section-heading"><h2>Alınabilecek raporlar</h2><span class="subtle-badge">@ViewBag.Donem dönemi · @Model.FaturaSayisi fatura</span></div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover data-table">
+            <thead><tr><th>Rapor adı</th><th>İçerik</th><th>Dosya türü</th><th>İşlem</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Dönem denetim raporu</strong></td><td>Dönem özeti, klinik sonuçları, kural dağılımı ve dönemsel karşılaştırma.</td><td>PDF / A4</td><td><a class="btn btn-light btn-sm" asp-action="Pdf" asp-route-donem="@ViewBag.Donem">PDF raporunu indir</a></td></tr>
+                <tr><td><strong>Ayrıntılı bulgu listesi</strong></td><td>Yetkili olunan kurum ve kliniklerin dönem özeti ile filtrelenebilir bulgu listesi.</td><td>Excel / XLSX</td><td><a class="btn btn-light btn-sm" asp-action="Excel" asp-route-donem="@ViewBag.Donem">Excel dosyasını indir</a></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section class="surface mt-3">
+    <div class="section-heading"><h2>Düzeltmelerin tahmini etkisi</h2></div>
+    <div class="padded">
+        <p>Tahmini risk azalması: <strong class="money">@Model.OnlenenTahminiTutar.ToString("C2")</strong></p>
+        <p>İlk ve son kontrol arasındaki riskteki tutar azalmasıdır. İstisna ve kural değerlendirmelerinden etkilenebilir; önlenmiş gerçek red veya tahsilat garantisi değildir.</p>
+        <small class="muted">Dışa aktarma işlemleri denetim izine kaydedilir. Raporlar hasta kimlik verisi içermez.</small>
+    </div>
+</section>

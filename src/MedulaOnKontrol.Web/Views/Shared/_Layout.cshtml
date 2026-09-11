@@ -1,0 +1,67 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    string MenuClass(string name) => controller == name ? "nav-link active" : "nav-link";
+    string? CurrentPage(string name) => controller == name ? "page" : null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@ViewData["Title"] · MEDULA Ön-Kontrol</title>
+    <link rel="stylesheet" href="~/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<a class="skip-link" href="#main-content">İçeriğe geç</a>
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <header class="topbar navbar">
+        <a class="brand navbar-brand" href="/">MEDULA <span>Fatura Ön-Kontrol Sistemi</span></a>
+        <div class="session-info">
+            <span class="session-user">Kullanıcı: @User.Identity.Name <span class="user-role">(@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)</span></span>
+            <span class="top-date">@DateTime.Now.ToString("dd.MM.yyyy")</span>
+            <form asp-controller="Hesap" asp-action="Logout" method="post"><button class="logout" type="submit">Oturumu kapat</button></form>
+        </div>
+        <button class="btn menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#islem-menu" aria-controls="islem-menu" aria-expanded="false">İşlem menüsü</button>
+    </header>
+    <div class="module-menu collapse" id="islem-menu">
+        <nav class="nav nav-tabs" aria-label="Ana menü">
+            <a asp-controller="Panel" asp-action="Index" class="@MenuClass("Panel")" aria-current="@CurrentPage("Panel")">Gösterge paneli</a>
+            <a asp-controller="Fatura" asp-action="Index" class="@MenuClass("Fatura")" aria-current="@CurrentPage("Fatura")">Faturalar</a>
+            @if ((await Authorization.AuthorizeAsync(User, Yetkiler.Kural)).Succeeded)
+            {
+                <a asp-controller="Kural" asp-action="Index" class="@MenuClass("Kural")" aria-current="@CurrentPage("Kural")">Kural kataloğu</a>
+            }
+            @if ((await Authorization.AuthorizeAsync(User, Yetkiler.Rapor)).Succeeded)
+            {
+                <a asp-controller="Red" asp-action="Index" class="@MenuClass("Red")" aria-current="@CurrentPage("Red")">Red geri beslemesi</a>
+                <a asp-controller="Rapor" asp-action="Index" class="@MenuClass("Rapor")" aria-current="@CurrentPage("Rapor")">Raporlar</a>
+            }
+            @if ((await Authorization.AuthorizeAsync(User, Yetkiler.Denetim)).Succeeded)
+            {
+                <a asp-controller="Denetim" asp-action="Index" class="@MenuClass("Denetim")" aria-current="@CurrentPage("Denetim")">Denetim izi</a>
+            }
+        </nav>
+    </div>
+    <div class="app-shell">
+        <nav class="breadcrumb-bar" aria-label="Sayfa konumu"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="/">Ana sayfa</a></li><li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li></ol><span class="environment-label">Test ortamı</span></nav>
+        <main id="main-content" class="main-content">
+            @if (TempData["Success"] is string successMessage) { <div class="alert alert-success" role="status">@successMessage</div> }
+            @if (TempData["Error"] is string error) { <div class="alert alert-danger" role="alert">@error</div> }
+            @RenderBody()
+            <footer class="ethics">Bu sistem bir karar destek aracıdır. Nihai kodlama ve faturalandırma sorumluluğu hekim ve tıbbi kodlama uzmanındadır. Tüm veriler sentetiktir; resmî SGK uyumluluk onayı yoktur.</footer>
+        </main>
+    </div>
+}
+else
+{
+    <header class="auth-header"><strong>MEDULA</strong><span>Fatura Ön-Kontrol Sistemi</span></header>
+    <main id="main-content" class="auth-shell">@RenderBody()</main>
+}
+<script src="~/vendor/bootstrap.bundle.min.js"></script>
+<script src="~/vendor/apexcharts.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
